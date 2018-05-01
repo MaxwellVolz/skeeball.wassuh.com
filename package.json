@@ -10,6 +10,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "three": "^0.92.0",
+    "three-obj-loader": "^1.1.3",
     "typeface-roboto": "0.0.54",
     "whs": "^2.1.9"
   },
