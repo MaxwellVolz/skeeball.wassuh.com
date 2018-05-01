@@ -6,7 +6,7 @@ import Link from 'react-router-dom';
 
 import * as WHS from 'whs';
 import * as THREE from 'three';
-import * as OBJLoader from 'three-obj-loader';
+import * as threeObjLoader from 'three-obj-loader';
 import * as PHYSICS from 'physics-module-ammonext';
 
 import * as UTILS from '../../components/utils';
@@ -96,38 +96,42 @@ export default class Header extends Component {
 
         // Compound Module ( not working! )
 
-        // const compoundModule = new WHS.Importer({
-        //     modules: [
-        //         new PHYSICS.CompoundModule()
-        //     ]
-        // })
+        const objLoader = new threeObjLoader(THREE);
 
-        // const part1 = new WHS.Importer({
-        //     path: '../test.obj',
-        //     loader: OBJLoader(THREE),
-        //     parser(object){
-        //         this.applyBridge({geometry: object.geometry});
-        //         return object;
-        //     },
-        //     modules: [
-        //         new PHYSICS.ConvexModule()
-        //     ]
-        // })
 
-        // const part2 = new WHS.Importer({
-        //     path: '../part2.obj',
-        //     loader: objLoader,
-        //     parser(object){
-        //         this.applyBridge({geometry: object.geometry});
-        //         return object;
-        //     },
-        //     modules: [
-        //         new PHYSICS.ConvexModule()
-        //     ]
-        // })
+        const compoundModule = new WHS.Importer({
+            modules: [
+                new PHYSICS.CompoundModule()
+            ]
+        })
 
-        // part1.addTo(compoundModule);
-        // part2.addTo(compoundModule);
+        const part1 = new WHS.Importer({
+            path: '../part1.obj',
+            loader: objLoader,
+            parser(object){
+                this.applyBridge({geometry: object.geometry});
+                return object;
+            },
+            modules: [
+                new PHYSICS.ConvexModule()
+            ]
+        })
+
+        const part2 = new WHS.Importer({
+            path: '../part2.obj',
+            loader: objLoader,
+            parser(object){
+                this.applyBridge({geometry: object.geometry});
+                return object;
+            },
+            modules: [
+                new PHYSICS.ConvexModule()
+            ]
+        })
+
+        part1.addTo(compoundModule);
+        part2.addTo(compoundModule);
+        compoundModule.addTo(app);
 
         // Convex Model
 
