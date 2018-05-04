@@ -89,9 +89,15 @@ export default class Mountain extends Component {
             ],
             useCustomMaterial: true,
             position: {
-                z: 0,
+                x: 0,
                 y: 30,
-                x: 0
+                
+                z: 0,
+            },
+            rotation: {
+                x: 0,
+                y:  -1.57079632679,
+                z: 0,
             },
             scale: [4, 4, 4]
             // material: new THREE.MeshBasicMaterial({color: 0xff0000})
@@ -254,8 +260,9 @@ export default class Mountain extends Component {
         ]
 
         const cols = [...col1, ...col2, ...col3];
-        const makeBillboard = () => {
 
+
+        const makeBillboard = () => {
 
             for (let n of cols) {
 
@@ -290,7 +297,6 @@ export default class Mountain extends Component {
                     widthSegments: 32,
                     heightSegments: 32
                 },
-
                 modules: [
                     new PHYSICS.SphereModule({
                         mass: 20,
@@ -299,11 +305,9 @@ export default class Mountain extends Component {
                     }),
 
                 ],
-
                 material: new THREE.MeshPhongMaterial({
                     color: 0xF2F2F2
                 }),
-
                 // position: new THREE.Vector3(-22, 40, -28) // Mountain
 
                 position: new THREE.Vector3(22 + Math.floor(Math.random() * 2) - 1, 80, -23 + Math.floor(Math.random() * 2) - 1) //Jumps
@@ -340,7 +344,6 @@ export default class Mountain extends Component {
                 intensity: 0.5,
                 distance: 300
             },
-
             shadow: {
                 fov: 90
             },
@@ -385,7 +388,7 @@ export default class Mountain extends Component {
             switch (event.key) {
                 case 'w':
                     bridgeModel.position.y += .2;
-                    // bridgeModel.rotation.y += .2;
+                    bridgeModel.rotation.y = 0.0314;
                     // bridgeModel.mass = 5;
                     break;
                 case 'ArrowUp':

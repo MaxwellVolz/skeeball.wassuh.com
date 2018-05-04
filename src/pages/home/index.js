@@ -14,8 +14,6 @@ import * as UTILS from '../../components/utils';
 // import * as DragModule from '../../components/dragModule';
 // import * as AMMO from '../../components/ammo';
 
-import *  as mSquares from '../../3dcomponents/m';
-
 import Mountain from '../../scenes/mountain';
 import Snacks from '../../components/snacks';
 
