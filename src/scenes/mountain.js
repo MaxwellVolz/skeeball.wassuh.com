@@ -47,7 +47,7 @@ export default class Mountain extends Component {
         let changeCam = true;
         let cameraSelected = 1;
         let chaseCam = false;
-        
+
 
         let sphereY = new WHS.Sphere({ // Create sphere comonent.
             geometry: {
@@ -82,15 +82,7 @@ export default class Mountain extends Component {
             },
         }));
 
-        const orbitControls = new WHS.OrbitControlsModule({
-            // object: sphereY,
-            // target: {x:-20,y:50,z:-20},
-            // target: sphereY.position,
-            // follow: true
-        });
-
-
-
+        const orbitControls = new WHS.OrbitControlsModule();
 
 
         const app = new WHS.App([
@@ -110,53 +102,14 @@ export default class Mountain extends Component {
             new PHYSICS.WorldModule({
                 ammo: 'https://cdn.rawgit.com/WhitestormJS/physics-module-ammonext/7a25628e/vendor/ammo.js'
             }),
-            
+
             new WHS.ResizeModule(),
             mouse,
             orbitControls
         ]);
 
-        // Sphere
 
-        // console.log(sphere);
-        // sphere.addTo(app);
-
-
-        // SphereGhost
         
-        const printerModel = new WHS.Sphere({ // Create sphere comonent.
-            geometry: {
-                radius: 1,
-                widthSegments: 32,
-                heightSegments: 32
-            },
-            modules: [
-                new PHYSICS.SphereModule({
-                    mass: 0,
-                    friction: 0,
-
-                }),
-
-            ],
-            material: new THREE.MeshPhongMaterial({
-                color: 0x00FFFF
-            }),
-            // position: new THREE.Vector3(-22, 40, -28) // Mountain
-            // 22 + offset, 63, -22 + offset
-            position: new THREE.Vector3(23.2 + offset, 66, -23 + offset) //Jumps
-            // position: new THREE.Vector3(-24, 50, 30) //Jumps
-        });
-        
-        
-
-        // printerModel.addTo(app);
-
-        mouse.track(printerModel);
-
-        printerModel.on('click', () => {
-            this.props.ballWasMade("Ball created! ");
-            makeBall();
-        });
 
         // Mountain Model
 
@@ -174,11 +127,6 @@ export default class Mountain extends Component {
                 })
             ],
             useCustomMaterial: true,
-            // material: new THREE.MeshPhongMaterial({
-            // shading: THREE.SmoothShading,
-            // side: THREE.DoubleSide,
-            //     // color: 0xFFD06B
-            // }),
             position: {
                 z: 0,
                 y: 0,
@@ -190,62 +138,10 @@ export default class Mountain extends Component {
 
         concaveModel.addTo(app);
 
-        // const concaveModel2 = new WHS.Model({
-        //     geometry: {
-        //         path: '../cuburo.json'
-        //     },
 
-        //     modules: [
-        //         new PHYSICS.ConcaveModule({
-        //             friction: 1,
-        //             mass: 0,
-        //             path: '../cuburo.json',
-        //             scale: new THREE.Vector3(8, 8, 8)
-        //         })
-        //     ],
-        //     useCustomMaterial: true,
-        //     // material: new THREE.MeshPhongMaterial({
-        //     // shading: THREE.SmoothShading,
-        //     // side: THREE.DoubleSide,
-        //     //     // color: 0xFFD06B
-        //     // }),
-        //     position: {
-        //         z: 20,
-        //         y: 15,
-        //         x: -20
-        //     },
-        //     scale: [8, 8, 8]
-        //     // material: new THREE.MeshBasicMaterial({color: 0xff0000})
-        // });
-
-        // concaveModel2.addTo(app);
 
         // Sphere 
-        const sphere = new WHS.Sphere({ // Create sphere comonent.
-            geometry: {
-                radius: 1,
-                widthSegments: 32,
-                heightSegments: 32
-            },
-            modules: [
-                new PHYSICS.SphereModule({
-                    mass: 30,
-                    // friction: 1,
-
-                }),
-
-            ],
-            material: new THREE.MeshPhongMaterial({
-                color: 0xF2F2F2
-            }),
-
-            position: new THREE.Vector3(-12, 35, -28)
-        });
-
-        // sphere.addTo(app);
-
-        // Box
-
+        sphereY.addTo(app);
 
 
         // Billboard Boxi
@@ -381,42 +277,48 @@ export default class Mountain extends Component {
                 }),
                 // position: new THREE.Vector3(-22, 40, -28) // Mountain
 
-                position: new THREE.Vector3(ballLight.position.x, 66, ballLight.position.z) //Jumps
+                position: new THREE.Vector3(generatorLight.position.x, 66, generatorLight.position.z) //Jumps
             });
 
             sphereX.addTo(app);
         }
 
-        // Moveaball
 
-        
+        // SphereGhost
 
-        sphereY.addTo(app);
+        const generatorModel = new WHS.Sphere({ // Create sphere comonent.
+            geometry: {
+                radius: 1,
+                widthSegments: 32,
+                heightSegments: 32
+            },
+            modules: [
+                new PHYSICS.SphereModule({
+                    mass: 0,
+                    friction: 0,
+
+                }),
+            ],
+            material: new THREE.MeshPhongMaterial({
+                color: 0x00FFFF
+            }),
+            // position: new THREE.Vector3(-22, 40, -28) // Mountain
+            // 22 + offset, 63, -22 + offset
+            position: new THREE.Vector3(22.5 + offset, 68, -22 + offset) //Jumps
+            // position: new THREE.Vector3(-24, 50, 30) //Jumps
+        });
+
+        // generatorModel.addTo(app);
+
+        mouse.track(generatorModel);
+
+        generatorModel.on('click', () => {
+            this.props.ballWasMade("Ball created! ");
+            makeBall();
+        });
 
 
-
-        // Plane
-
-        // const plane = new WHS.Plane({
-        //     geometry: {
-        //         width: 1000,
-        //         height: 1000
-        //     },
-        //     modules: [
-        //         new PHYSICS.PlaneModule({
-        //             mass: 0
-        //         })
-        //     ],
-        //     material: new THREE.MeshPhongMaterial({ color: 0x447F8B }),
-        //     rotation: {
-        //         x: -Math.PI / 2,
-        //         // z: 1cd
-        //     }
-        // });
-        // plane.addTo(app);
-
-
-        const ballLight = new WHS.Cone({
+        const generatorLight = new WHS.Cone({
             geometry: {
                 radiusTop: 1,
                 radiusBottom: .6,
@@ -429,123 +331,74 @@ export default class Mountain extends Component {
                 opacity: 0.125
             }),
 
-            position: [23.5 + offset, 63, -23 + offset],
+            position: [22.5 + offset, 63, -22 + offset],
             scale: [.2, .2, .2]
         });
 
-        ballLight.addTo(app);
+        generatorLight.addTo(app);
 
-
-
-        const printerControlFront = new WHS.Cone({
-            geometry: {
+        const generatorGeometry = {
                 radiusTop: .2,
                 radiusBottom: .2,
                 height: 40
-            },
+        }
+        const generatorMaterial =new THREE.MeshBasicMaterial({  
+            color: 0x447F8B,
+            transparent: true,
+            opacity: 0.3
+        });
+        const generatorScale = [.05, .05, .05];
 
-            material: new THREE.MeshBasicMaterial({
-                color: 0x42f4e8,
-
-            }),
-
+        const printerControlFront = new WHS.Cone({
+            geometry: generatorGeometry,
+            material: generatorMaterial,
             position: [22.5 + offset, 68, -16 + offset],
             rotation: [1.5708, 0, 0],
-            scale: [.05, .05, .05]
+            scale: generatorScale
         });
 
         printerControlFront.addTo(app);
-
         mouse.track(printerControlFront);
-
-        printerControlFront.on('click', () => {
-            moveLightFront();
-
-        });
+        printerControlFront.on('click', () => { moveLightFront() });
 
         const printerControlLeft = new WHS.Cone({
-            geometry: {
-                radiusTop: .2,
-                radiusBottom: .2,
-                height: 40
-            },
-
-            material: new THREE.MeshBasicMaterial({
-                color: 0x42f4e8,
-
-            }),
-
+            geometry: generatorGeometry,
+            material: generatorMaterial,
             position: [16.5 + offset, 68, -22 + offset],
             rotation: [1.5708, 0, 1.5708],
-            scale: [.05, .05, .05]
+            scale: generatorScale
         });
 
         printerControlLeft.addTo(app);
-
         mouse.track(printerControlLeft);
-
-        printerControlLeft.on('click', () => {
-            moveLightLeft();
-
-        });
+        printerControlLeft.on('click', () => { moveLightLeft() });
 
         const printerControlBack = new WHS.Cone({
-            geometry: {
-                radiusTop: .2,
-                radiusBottom: .2,
-                height: 40
-            },
-
-            material: new THREE.MeshBasicMaterial({
-                color: 0x42f4e8,
-
-            }),
-
+            geometry: generatorGeometry,
+            material: generatorMaterial,
             position: [22.5 + offset, 68, -28 + offset],
             rotation: [1.5708, 0, 3.14159],
-            scale: [.05, .05, .05]
+            scale: generatorScale
         });
 
         printerControlBack.addTo(app);
-
         mouse.track(printerControlBack);
-
-        printerControlBack.on('click', () => {
-            moveLightBack();
-
-        });
+        printerControlBack.on('click', () => { moveLightBack() });
 
         const printerControlRight = new WHS.Cone({
-            geometry: {
-                radiusTop: .2,
-                radiusBottom: .2,
-                height: 40
-            },
-
-            material: new THREE.MeshBasicMaterial({
-                color: 0x42f4e8,
-
-            }),
+            geometry: generatorGeometry,
+            material: generatorMaterial,
             position: [28.5 + offset, 68, -22 + offset],
             rotation: [1.5708, 0, 4.71239],
-            scale: [.05, .05, .05]
+            scale: generatorScale
         });
 
         printerControlRight.addTo(app);
-
         mouse.track(printerControlRight);
+        printerControlRight.on('click', () => { moveLightRight() });
 
-        printerControlRight.on('click', () => {
-            moveLightRight();
-
-        });
-
-        const printerControlGroup = new WHS.Group(printerModel, printerControlFront, printerControlBack, printerControlLeft, printerControlRight);
+        const printerControlGroup = new WHS.Group(generatorModel, printerControlFront, printerControlBack, printerControlLeft, printerControlRight);
         printerControlGroup.addTo(app);
-
-        // 
-        // 3.14159
-        // 4.71239
 
 
         // Lights
@@ -562,7 +415,7 @@ export default class Mountain extends Component {
             position: new THREE.Vector3(13, 90, -10)
         }).addTo(app);
 
-        // const ballLight = new WHS.SpotLight({
+        // const moodLight = new WHS.SpotLight({
         //     color: 0xfff82d,
         //     intensity: 5,
         //     distance: 5,
@@ -571,14 +424,13 @@ export default class Mountain extends Component {
 
         // });
 
-        // ballLight.addTo(app);
+        // moodLight.addTo(app);
 
-          new WHS.AmbientLight({
+        new WHS.AmbientLight({
             light: {
-              intensity: 0.2
+                intensity: 0.3
             }
-          }).addTo(app);
-
+        }).addTo(app);
 
         // Collision
 
@@ -586,122 +438,95 @@ export default class Mountain extends Component {
         //     if (contactNormal.y < 0.5) sphere.material.color.set(0x0000ff);
         // });
 
-        // Mouse
-
-        mouse.on('move', () => {
-            // sphere.setLinearVelocity(mouse.project().sub(sphere.position).multiplyScalar(2));
-            // sphere.applyForce(new THREE.Vector3(10, 0, 0))
-            // sphere.bo
-        });
-
-
-
-
         const moveBallBack = () => {
             let currLV = sphereY.use('physics').getLinearVelocity();
-            if(currLV.z > -20) currLV.z -=5;
+            if (currLV.z > -20) currLV.z -= 5;
             sphereY.use('physics').setLinearVelocity(currLV);
         }
 
         const moveBallFront = () => {
             let currLV = sphereY.use('physics').getLinearVelocity();
-            if(currLV.z < 20) currLV.z +=5;
+            if (currLV.z < 20) currLV.z += 5;
             sphereY.use('physics').setLinearVelocity(currLV);
         }
         const moveBallLeft = () => {
             let currLV = sphereY.use('physics').getLinearVelocity();
-            if(currLV.x > -20) currLV.x -=5;
+            if (currLV.x > -20) currLV.x -= 5;
             sphereY.use('physics').setLinearVelocity(currLV);
         }
         const moveBallRight = () => {
             let currLV = sphereY.use('physics').getLinearVelocity();
-            if(currLV.x < 20) currLV.x +=5;
+            if (currLV.x < 20) currLV.x += 5;
             sphereY.use('physics').setLinearVelocity(currLV);
         }
 
 
         const moveLightBack = () => {
-
-            if (ballLight.position.z > -24.5) {
-                ballLight.position.z -= .2;
+            if (generatorLight.position.z > -24.5) {
+                generatorLight.position.z -= .2;
                 printerControlGroup.position.z -= .2;
-                // sphereY.use('physics').applyCentralForce({x: 10, y: 100, z: 10});
-                // sphereY.use('physics').setLinearVelocity({x: 0, y: 50, z: 0});
-                // sphereY.use('physics').setAngularVelocity({x: 0, y: 50, z: 0});
             }
-
         }
-        const moveLightFront = () => {
-            console.log(orbitControls)
-            orbitControls.params.target = { x: sphere.position.x, y: sphere.position.y, z: sphere.position.z}
 
-            if (ballLight.position.z < -19) {
-                ballLight.position.z += .2;
+        const moveLightFront = () => {
+            if (generatorLight.position.z < -19) {
+                generatorLight.position.z += .2;
                 printerControlGroup.position.z += .2;
             }
         }
         const moveLightLeft = () => {
-
-            if (ballLight.position.x > 20) {
-                ballLight.position.x -= .2;
+            if (generatorLight.position.x > 20) {
+                generatorLight.position.x -= .2;
                 printerControlGroup.position.x -= .2;
             }
-
         }
         const moveLightRight = () => {
-            if (ballLight.position.x < 24) {
-                ballLight.position.x += .2;
+            if (generatorLight.position.x < 24) {
+                generatorLight.position.x += .2;
                 printerControlGroup.position.x += .2;
             }
-
         }
+
         const jumpSphere = () => {
             let currVelocity = sphereY.use('physics').getLinearVelocity();
-
             sphereY.use('physics').setLinearVelocity({ x: currVelocity.x, y: 30, z: currVelocity.z });
         }
 
         var map = {};
 
-
         let handleKeyDown = (event) => {
-            // console.log(event);
 
             map[event.keyCode] = event.type == 'keydown';
-            console.log(map);
-            if(map[87] === true){
+            // console.log(map);
+            if (map[87] === true) {
                 moveBallBack();
-                console.log(camera.rotation);
-                console.log(camera.data.rotation);
-                // camera.setTarget(sphereY);
             }
-            if(map[83] === true){
+            if (map[83] === true) {
                 moveBallFront();
             }
-            if(map[65] === true){ // CTRL+SHIFT+A
+            if (map[65] === true) {
                 moveBallLeft();
             }
-            if(map[68] === true){
+            if (map[68] === true) {
                 moveBallRight();
             }
 
-            if(map[32] === true){
+            if (map[32] === true) {
                 jumpSphere();
             }
 
-            if(map[49]){
+            if (map[49]) {
                 changeCam = true;
                 cameraSelected = 1;
             }
 
-            if(map[50]){
+            if (map[50]) {
                 changeCam = true;
                 cameraSelected = 2;
             }
-            
 
             switch (event.key) {
-               
+
                 case 'ArrowUp':
                     moveLightBack();
                     break;
@@ -719,7 +544,6 @@ export default class Mountain extends Component {
                     makeBall();
                     break;
 
-
                 default:
                     break;
             }
@@ -727,7 +551,7 @@ export default class Mountain extends Component {
         };
 
         let handleKeyUp = handleKeyDown;
-        
+
 
         document.addEventListener("keydown", handleKeyDown.bind(this));
         document.addEventListener("keyup", handleKeyUp.bind(this));
@@ -736,29 +560,23 @@ export default class Mountain extends Component {
             this.props.ballWasMade("Ball reset! ");
 
             sphereY.use('physics').setLinearVelocity({ x: 0, y: 0, z: 0 });
-            sphereY.position =  new THREE.Vector3(23.2 + offset, 63, -23 + offset);
+            sphereY.position = new THREE.Vector3(23.2 + offset, 63, -23 + offset);
         }
 
-        const selectNewCamera = (cam) =>{
-            console.log(cam);
+        const selectNewCamera = (cam) => {
             switch (cam) {
-               
+
                 case 1:
                     chaseCam = false;
-                    camera.data.position = {x: -30, y:80, z:30}
-                    orbitControls.params.target = {x: 0, y:80, z:0};
-                    
+                    camera.data.position = { x: -30, y: 80, z: 30 }
+                    orbitControls.params.target = { x: 0, y: 80, z: 0 };
+
                     break;
                 case 2:
-                    // Chase Cam
                     chaseCam = true;
-                    orbitControls.params.target =  sphereY.position;
-                    orbitControls.params.follow =  true;
-                    console.log("hello");
+                    orbitControls.params.target = sphereY.position;
+                    // orbitControls.params.follow = true;
 
-                                // target: sphereY.position,
-            // follow: true
-                    
                     break;
                 default:
                     break;
@@ -766,40 +584,26 @@ export default class Mountain extends Component {
         }
 
         const loop = new WHS.Loop((clock) => {
-            // box.rotation.y += 0.01;
-            // sphere2.position.z -= 0.5;
-            // sphere3.position.z += 2;
 
-            if(sphereY.position.y < -20){ 
+            if (sphereY.position.y < -20) {
                 resetSphereY();
             }
 
-            if(changeCam){
+            if (changeCam) {
                 changeCam = false;
 
                 selectNewCamera(cameraSelected);
             }
 
-            if(chaseCam){
+            if (chaseCam) {
                 camera.data.position.x = sphereY.position.x;
                 camera.data.position.y = sphereY.position.y + 10;
                 camera.data.position.z = sphereY.position.z;
             }
 
-            
-
-
-            // if (clock.getElapsedTime() > 4) {
-            //     loop.stop(app);
-            //     // reloop.start(app);
-            // }
-
-
         });
 
         loop.start(app);
-
-        // Kickoff
 
         app.start();
 
