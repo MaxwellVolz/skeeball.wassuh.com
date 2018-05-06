@@ -16,6 +16,7 @@ import * as UTILS from '../../components/utils';
 
 import Mountain from '../../scenes/mountain';
 import Snacks from '../../components/snacks';
+import RightDrawer from '../../components/drawer';
 
 
 
@@ -38,11 +39,11 @@ export default class Header extends Component {
     ballReport = (msg) => {
         console.log(msg);
         // console.log(this);
-        this.child.messageFromAbove('Ball created!');
+        this.child.messageFromAbove(msg);
         // this.child.handleClick('Ball Created');
 
     }
-""
+
     render() {
 
 
@@ -50,8 +51,13 @@ export default class Header extends Component {
             <div className="App">
             <Mountain ballWasMade={this.ballReport}/>
             <Snacks onRef={ref => (this.child = ref)} />
+
+            
                 <header className="App-header">
-                    <h1 className="App-title">WHS Practice</h1>
+                <RightDrawer  />
+                
+                    {/* <h1 className="App-title"></h1> */}
+                    
                 </header>
 
                 <div id="whs"></div>

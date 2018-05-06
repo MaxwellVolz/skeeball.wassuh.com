@@ -100,8 +100,8 @@ export default class ConsecutiveSnackbars extends React.Component {
     const { message, key } = this.state.messageInfo;
     return (
       <div>
-        <Button onClick={this.handleClick('message a')}>Show message A</Button>
-        <Button onClick={this.handleClick('message b')}>Show message B</Button>
+        {/* <Button onClick={this.handleClick('message a')}>Show message A</Button>
+        <Button onClick={this.handleClick('message b')}>Show message B</Button> */}
         <Snackbar
           key={key}
           anchorOrigin={{

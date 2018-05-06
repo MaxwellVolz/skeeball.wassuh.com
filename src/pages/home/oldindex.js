@@ -151,7 +151,34 @@ export default class Header extends Component {
 
         // console.log(part1);
 
+        new WHS.Model({
+            geometry: {
+                path: '../printer.json'
+            },
 
+            modules: [
+                new PHYSICS.ConcaveModule({
+                    friction: 1,
+                    mass: 0,
+                    path: '../printer.json',
+                    scale: new THREE.Vector3(1, 1, 1)
+                })
+            ],
+            useCustomMaterial: true,
+            position: {
+                x: 22 + offset,
+                y: 67,
+
+                z: -22 + offset,
+            },
+            rotation: {
+                x: 0,
+                y: -1.57079632679,
+                z: 0,
+            },
+            scale: [1, 1, 1]
+            // material: new THREE.MeshBasicMaterial({color: 0xff0000})
+        });
 
         const part2 = new WHS.Importer({
             path: '../part2.obj',
