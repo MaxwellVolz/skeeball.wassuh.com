@@ -367,8 +367,14 @@ export default class Mountain extends Component {
                     break;
             }
         }
+        let incr = 4;
 
         const loop = new WHS.Loop((clock) => {
+
+            // if (clock.getElapsedTime() > incr) {
+            //     makeBall();
+            //     incr += 4.5;
+            // }
 
             if (sphereY.position.y < -20) {
                 resetSphereY();

@@ -35,7 +35,6 @@ export default class Header extends Component {
         console.log(msg);
         // console.log(this);
         this.snack.messageFromAbove(msg);
-        // this.mountain.testo("msg");
         // this.snack.handleClick('Ball Created');
 
     }

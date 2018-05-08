@@ -25,7 +25,7 @@ export function SphereY(app, offset){
         }),
         // position: new THREE.Vector3(-22, 40, -28) // Mountain
         // 22 + offset, 63, -22 + offset
-        position: new THREE.Vector3(23.2 + offset, 63, -23 + offset) //Jumps
+        position: new THREE.Vector3(23.2 + offset, 73, -23 + offset) //Jumps
         // position: new THREE.Vector3(-24, 50, 30) //Jumps
     });
 }
@@ -96,14 +96,14 @@ export function GeneratorLight(app,offset){
 export function Mountain(app){
     return new WHS.Model({
         geometry: {
-            path: '../Jumps2.json'
+            path: '../Mountain2.json'
         },
 
         modules: [
             new PHYSICS.ConcaveModule({
                 friction: 1,
                 mass: 0,
-                path: '../Jumps2.json',
+                path: '../Mountain2.json',
                 scale: new THREE.Vector3(4, 4, 4)
             })
         ],
