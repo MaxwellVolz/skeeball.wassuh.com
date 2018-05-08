@@ -96,14 +96,14 @@ export function GeneratorLight(app,offset){
 export function Mountain(app){
     return new WHS.Model({
         geometry: {
-            path: '../Mountain2.json'
+            path: '../Jumps2.json'
         },
 
         modules: [
             new PHYSICS.ConcaveModule({
                 friction: 1,
                 mass: 0,
-                path: '../Mountain2.json',
+                path: '../Jumps2.json',
                 scale: new THREE.Vector3(4, 4, 4)
             })
         ],

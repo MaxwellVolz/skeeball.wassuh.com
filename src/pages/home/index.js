@@ -15,7 +15,10 @@ import * as UTILS from '../../components/utils';
 // import * as AMMO from '../../components/ammo';
 
 import Mountain from '../../scenes/mountain';
+import Skeeball from '../../scenes/skeeball';
+
 import Snacks from '../../components/snacks';
+import Alerts from '../../components/alerts';
 import RightDrawer from '../../components/drawer';
 
 
@@ -46,8 +49,10 @@ export default class Header extends Component {
 
         return (
             <div className="App">
-            <Mountain ballWasMade={this.ballReport} onRef={ref => (this.mountain = ref)}/>
+            {/* <Mountain ballWasMade={this.ballReport} onRef={ref => (this.mountain = ref)}/> */}
+            <Skeeball ballWasMade={this.ballReport} onRef={ref => (this.mountain = ref)}/>
             <Snacks onRef={ref => (this.snack = ref)} />
+            <Alerts />
 
             
                 <header className="App-header">
