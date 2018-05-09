@@ -52,7 +52,7 @@ export function FireButton() {
             color: 0xffffff
         }),
         rotation: [-(Math.PI / 4), (Math.PI / 2.3) ,(Math.PI / 4)],
-        position: [93, -3, -15]
+        position: [94, -2.1, -15]
     })
 
 }

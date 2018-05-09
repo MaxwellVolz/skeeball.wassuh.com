@@ -8,23 +8,25 @@ OBJLoader(THREE);
 export function Machine(app){
 	return new WHS.Model({
 		geometry: {
-			path: '../skeeball.json',
+			path: '../skeeball2.json',
 		},
 		
 		modules: [
 			new PHYSICS.ConcaveModule({
 				mass: 0,
-				path: '../skeeball.json',
-				scale: new THREE.Vector3(1,1,1)
+				path: '../skeeball2.json',
+				scale: new THREE.Vector3(3,3,3)
 			})
 		],
-		useCustomMaterial: true,
+		material: new THREE.MeshNormalMaterial({
+			color: 0xFFFF00
+		}),
 		position: {
-			x: 0,
+			x: 10,
 			y: 0,
 			z: 0
 		},
-		scale: [1,1,1]
+		scale: [3,3,3]
 	});
 }
 

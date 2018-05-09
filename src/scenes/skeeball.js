@@ -208,7 +208,10 @@ export default class Skeeball extends Component {
 		// keyboard controls
 		var map = {};
 
-		let handleKeyDown = (event) => {
+        let handleKeyDown = (event) => {
+
+			map[event.keyCode] = event.type == 'keydown';
+			
 
 			switch (event.key) {
 
@@ -261,7 +264,10 @@ export default class Skeeball extends Component {
 
 		};
 
-		document.addEventListener("keydown", handleKeyDown.bind(this));
+		let handleKeyUp = handleKeyDown;
+
+        document.addEventListener("keydown", handleKeyDown.bind(this));
+        document.addEventListener("keyup", handleKeyUp.bind(this));
 
 		// 2 player keyboard mode
 

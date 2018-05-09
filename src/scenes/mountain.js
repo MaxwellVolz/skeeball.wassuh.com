@@ -53,12 +53,12 @@ export default class Mountain extends Component {
         cameraSelected = 1;
         changeCam = true;
     }
-    Cam2(){
+    Cam2() {
         cameraSelected = 2;
         changeCam = true;
     }
 
-    
+
 
 
     runWHS() {
