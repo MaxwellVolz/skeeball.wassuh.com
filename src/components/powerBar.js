@@ -24,7 +24,7 @@ export default class ProgressMobileStepper extends React.Component {
         activeStep: 0,
     };
     tick = () => {
-        if (this.state.activeStep < 26) {
+        if (this.state.activeStep < 22 ) {
 
             this.setState({
                 activeStep: this.state.activeStep + 1
@@ -32,13 +32,13 @@ export default class ProgressMobileStepper extends React.Component {
         }
         else {
             this.setState({
-                activeStep: -12
+                activeStep: -7
             });
         }
     };
 
     componentDidMount() {
-        myInterval = setInterval(this.tick, 50);    
+        myInterval = setInterval(this.tick, 100);    
         
         this.props.onRef(this)
     }
@@ -49,7 +49,9 @@ export default class ProgressMobileStepper extends React.Component {
 
 
     showPower = () => {
-        console.log("hello?");
+        this.setState({
+            activeStep: 0
+        });
     }
 
     handleNext = () => {

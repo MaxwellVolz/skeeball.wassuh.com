@@ -7,7 +7,7 @@ import Typography from 'material-ui/Typography';
 
 
 function getSteps() {
-    return ['Pickup Ball', 'Select launch position', 'Set Power', 'Fire!'];
+    return ['Pickup Ball', 'Select launch position', 'Set Power'];
 }
 
 function getStepContent(step) {

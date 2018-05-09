@@ -182,7 +182,7 @@ export default class Skeeball extends Component {
 
 			if ((currentTime.getTime() - checkTime2) > 200) {
 
-				if (currentStep > 3) {
+				if (currentStep > 2) {
 					currentStep = 0;
 				}
 
@@ -218,14 +218,16 @@ export default class Skeeball extends Component {
 
 						
 						document.getElementById('PowerBar').style.display = 'none';
-						
 
-						this.props.actionCompleted(3);
-						break;
-					case 3:
 						removeGhostBall();
 						console.log("Shot power is: 180 + " + selectedPower / 15)
-						shootBall(ghostBall.position, 170 + (selectedPower / 15) , (Math.random() * 3) - 1.5);
+						shootBall(ghostBall.position, 165 + (selectedPower / 15) , (Math.random() * 3) - 1.5);
+						
+
+						this.props.actionCompleted(0);
+						break;
+					case 3:
+						
 						this.props.actionCompleted(0);
 					
 						// shoot

@@ -34,13 +34,11 @@ class AlertDialog extends React.Component {
             <DialogContentText id="alert-dialog-description">
               There will be bugs! 
               <br/><br/>
-              Create a ball with [1].
+              Confirm with [Spacebar] 
               <br/>
-              Shoot with [Spacebar].
+              Position with [Arrows] or [WASD]
               <br/>
-              Change camera with [3].
-                <br/>
-                Orbit with the mouse.
+              Orbit with [Mouse]
             </DialogContentText>
           </DialogContent>
           <DialogActions>

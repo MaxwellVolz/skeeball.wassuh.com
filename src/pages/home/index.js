@@ -59,7 +59,7 @@ export default class Header extends Component {
             
                 break;
             case 2:
-                // this.powerBar.showPower();
+                this.powerBar.showPower();
                 // alert("showPower!");
 
                 break;
