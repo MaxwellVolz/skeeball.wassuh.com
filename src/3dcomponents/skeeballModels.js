@@ -35,9 +35,9 @@ export function GhostBall(position){
             widthSegments: 32,
             heightSegments: 32
         },
-        material: new THREE.MeshPhongMaterial({
-            color: 0xFFF000
-        }),
+        material: new THREE.MeshNormalMaterial({
+			color: 0xFFFF00
+		}),
         // position: new THREE.Vector3(-22, 40, -28) // Mountain
         // 22 + offset, 63, -22 + offset
         position: position //Jumps

@@ -4,7 +4,7 @@ import * as OBJLoader from 'three-obj-loader';
 
 OBJLoader(THREE);
 
-export function Title(app) {
+export function Title() {
 
     const textGroup = new WHS.Group();
 
@@ -28,12 +28,33 @@ export function Title(app) {
         })
     }
 
-    const title = newText('Skeeball',[60, 10, -30]);
-    const body = newText('Coming Soon!',[61, 4, -30]);
+    const title = newText('Skeeball',[40, 10, -30]);
+    const body = newText('Coming Soon!',[41, 4, -30]);
 
     title.addTo(textGroup);
     body.addTo(textGroup);
 
     return textGroup;
 }
+
+export function FireButton() {
+    return new WHS.Text({
+        text: 'Shoot',
+        font: WHS.Text.load(`../font.typeface.json`),
+
+        geometry: {
+            size: 2,
+            height: .4,
+            curveSegments: 6
+        },
+
+        material: new THREE.MeshBasicMaterial({
+            color: 0xffffff
+        }),
+        rotation: [-(Math.PI / 4), (Math.PI / 2.3) ,(Math.PI / 4)],
+        position: [93, -3, -15]
+    })
+
+}
+
 

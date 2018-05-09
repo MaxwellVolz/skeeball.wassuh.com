@@ -120,7 +120,7 @@ export default class Skeeball extends Component {
 						}
 					}),
 				],
-				material: new THREE.MeshPhongMaterial({
+				material: new THREE.MeshNormalMaterial({
 					color: 0xFFFF00
 				}),
 				position: shotPosition
@@ -193,6 +193,17 @@ export default class Skeeball extends Component {
 		// in game controls
 		const title = SkeeballControls.Title();
 		title.addTo(app);
+
+		const fireBtn = SkeeballControls.FireButton();
+		fireBtn.addTo(app);
+
+        mouse.track(fireBtn);
+		
+		fireBtn.on('click', () => {
+
+			shootBall(ghostBall.position, 100 + (Math.random() * 70), (Math.random() * 8) - 4);
+
+        });
 
 		// keyboard controls
 		var map = {};
