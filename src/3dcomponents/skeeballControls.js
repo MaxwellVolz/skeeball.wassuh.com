@@ -47,7 +47,6 @@ export function FireButton() {
             height: .4,
             curveSegments: 6
         },
-
         material: new THREE.MeshBasicMaterial({
             color: 0xffffff
         }),

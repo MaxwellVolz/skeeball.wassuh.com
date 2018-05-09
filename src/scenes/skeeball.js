@@ -49,6 +49,11 @@ export default class Skeeball extends Component {
 		const mouse = new WHS.VirtualMouseModule();
 		const startPos = new THREE.Vector3(105, 3, -5);
 
+		let currentStep = 0,
+			positionLocked = true;
+
+		let selectedPower = 0;
+
 		camera = new WHS.PerspectiveCamera({
 			fov: 100,
 			position: {
@@ -98,50 +103,51 @@ export default class Skeeball extends Component {
 		const shootBall = (shotPosition, shotPower, shotAngle) => {
 
 			var currentTime = new Date()
-			if((currentTime.getTime() - checkTime) > 100){
+			if ((currentTime.getTime() - checkTime) > 200) {
 				//do stuff;
 
-				
-	
-			this.props.ballWasMade("Shot fired!");
-			let skeeballball = new WHS.Sphere({
-				geometry: {
-					radius: 1,
-					widthSegments: 32,
-					heightSegments: 32
-				},
-				modules: [
-					new PHYSICS.SphereModule({
-						mass: 20,
-						setLinearVelocity: {
-							x: 500,
-							y: shotPower / 10,
-							z: shotAngle
-						}
+
+
+				this.props.ballWasMade("Shot fired!");
+				let skeeballball = new WHS.Sphere({
+					geometry: {
+						radius: 1,
+						widthSegments: 32,
+						heightSegments: 32
+					},
+					modules: [
+						new PHYSICS.SphereModule({
+							mass: 20,
+							friction: 0.5,
+							setLinearVelocity: {
+								x: shotPower,
+								y: shotPower / 10,
+								z: shotAngle
+							}
+						}),
+					],
+					material: new THREE.MeshNormalMaterial({
+						color: 0xFFFF00
 					}),
-				],
-				material: new THREE.MeshNormalMaterial({
-					color: 0xFFFF00
-				}),
-				position: shotPosition
-			});
-			skeeballball.addTo(app);
-
-			// skeeballball.add(camera);
-
-
-			// skeeballball.use('physics').applyCentralForce({x: 5000, y: 10, z: 0});
-
-			setTimeout(function () {
-				skeeballball.use('physics').setLinearVelocity({
-					x: -shotPower,
-					y: shotPower / 20,
-					z: shotAngle
+					position: shotPosition
 				});
-			}, 50);
+				skeeballball.addTo(app);
+
+				// skeeballball.add(camera);
 
 
-			checkTime =currentTime.getTime();
+				// skeeballball.use('physics').applyCentralForce({x: 5000, y: 10, z: 0});
+
+				setTimeout(function () {
+					skeeballball.use('physics').setLinearVelocity({
+						x: -shotPower,
+						y: shotPower / 20,
+						z: shotAngle
+					});
+				}, 50);
+
+
+				checkTime = currentTime.getTime();
 			}
 
 			// TEST
@@ -158,9 +164,87 @@ export default class Skeeball extends Component {
 		// collision listeners for holes 
 
 		const ghostBall = SkeeballModels.GhostBall(startPos);
+		// ghostBall.addTo(app);
 
+		mouse.track(ghostBall);
+
+		ghostBall.on('click', () => {
+
+			shootBall(ghostBall.position, 120 + (Math.random() * 70), (Math.random() * 8) - 4);
+
+		});
+
+		var checkTime2 = 0;
 
 		// shooting steps 
+		const advanceStep = () => {
+			var currentTime = new Date();
+
+			if ((currentTime.getTime() - checkTime2) > 200) {
+
+				if (currentStep > 3) {
+					currentStep = 0;
+				}
+
+				switch (currentStep) {
+
+					case 0:
+						createGhostBall();
+						positionLocked = false;
+						this.props.actionCompleted(1);
+						break;
+					case 1:
+						positionLocked = true;
+
+					
+						// show power bar
+						document.getElementById('PowerBar').style.display = 'block';
+
+
+						
+						this.props.actionCompleted(2);
+						break;
+					case 2:
+						// show angle bar
+						let domEl = document.getElementById('PowerBar');
+						// console.log(window.getComputedStyle(domEl,null));
+
+						selectedPower = domEl.children["0"].children["0"].attributes[2].value;
+
+						// console.log()
+
+						// console.log( document.getElementById('PowerBar').dataset.aria-valuenow)
+
+
+						
+						document.getElementById('PowerBar').style.display = 'none';
+						
+
+						this.props.actionCompleted(3);
+						break;
+					case 3:
+						removeGhostBall();
+						console.log("Shot power is: 180 + " + selectedPower / 15)
+						shootBall(ghostBall.position, 170 + (selectedPower / 15) , (Math.random() * 3) - 1.5);
+						this.props.actionCompleted(0);
+					
+						// shoot
+						break;
+					case 4:
+						this.props.actionCompleted(0);
+						break;
+					case 5:
+						break;
+					default:
+						break;
+				}
+
+				++currentStep;
+				
+				checkTime2 = currentTime.getTime();
+			}
+		}
+
 		const createGhostBall = () => {
 			// check if ghostBall exists
 
@@ -168,60 +252,58 @@ export default class Skeeball extends Component {
 			changeCam = true;
 
 			// delete ball from slot
-			ghostBall.addTo(app);
 			// app.remove(camera);
-			// ghostBall.add(camera);
+			ghostBall.addTo(app);
 
 			// camera.position = {x: 20, y: 5, z: 0};
-			console.log(camera);
+			// console.log(camera);
 
-			console.log(ghostBall);
-
-
+			// console.log(ghostBall);
 		}
 
 		const removeGhostBall = () => {
 			app.remove(ghostBall);
 		}
 
-		
+
 
 		// scorekeeping 
 
 		// reset game
 
 		// in game controls
-		const title = SkeeballControls.Title();
-		title.addTo(app);
+		// const title = SkeeballControls.Title();
+		// title.addTo(app);
 
-		const fireBtn = SkeeballControls.FireButton();
-		fireBtn.addTo(app);
+		// const fireBtn = SkeeballControls.FireButton();
+		// fireBtn.addTo(app);
 
-        mouse.track(fireBtn);
-		
-		fireBtn.on('click', () => {
+		// mouse.track(fireBtn);
 
-			shootBall(ghostBall.position, 100 + (Math.random() * 70), (Math.random() * 8) - 4);
+		// fireBtn.on('click', () => {
 
-        });
+		// 	shootBall(ghostBall.position, 100 + (Math.random() * 75), (Math.random() * 8) - 4);
+
+		// });
 
 		// keyboard controls
 		var map = {};
 
-        let handleKeyDown = (event) => {
+		let handleKeyDown = (event) => {
 
 			map[event.keyCode] = event.type == 'keydown';
-			
+
 
 			switch (event.key) {
 
 				case '1':
-					createGhostBall();
+					// createGhostBall();
 					break;
 				case '2':
 				case ' ':
-					shootBall(ghostBall.position, 100 + (Math.random() * 70), (Math.random() * 8) - 4);
-					removeGhostBall();
+					// shootBall(ghostBall.position, 180, (Math.random() * 3) - 1.5);
+					advanceStep();
+					// removeGhostBall();
 					break;
 				case '3':
 					cameraSelected = 1;
@@ -233,25 +315,25 @@ export default class Skeeball extends Component {
 				case 'ArrowUp':
 				case 'w':
 				case 'W':
-					if (ghostBall.position.y < 8) ghostBall.position.y += .5;
+					if (ghostBall.position.y < 8 && !positionLocked) ghostBall.position.y += .5;
 					break;
 
 				case 'ArrowDown':
 				case 's':
 				case 'S':
-					if (ghostBall.position.y > 0) ghostBall.position.y -= .5;
+					if (ghostBall.position.y > 0 && !positionLocked) ghostBall.position.y -= .5;
 					break;
 
 				case 'ArrowLeft':
 				case 'a':
 				case 'A':
-					if (ghostBall.position.z < 6.5) ghostBall.position.z += .5;
+					if (ghostBall.position.z < 6.5 && !positionLocked) ghostBall.position.z += .5;
 					break;
 
 				case 'ArrowRight':
 				case 'd':
 				case 'D':
-					if (ghostBall.position.z > -8) ghostBall.position.z -= .5;
+					if (ghostBall.position.z > -8 && !positionLocked) ghostBall.position.z -= .5;
 					break;
 
 				case 'Control':
@@ -266,8 +348,8 @@ export default class Skeeball extends Component {
 
 		let handleKeyUp = handleKeyDown;
 
-        document.addEventListener("keydown", handleKeyDown.bind(this));
-        document.addEventListener("keyup", handleKeyUp.bind(this));
+		document.addEventListener("keydown", handleKeyDown.bind(this));
+		document.addEventListener("keyup", handleKeyUp.bind(this));
 
 		// 2 player keyboard mode
 
@@ -277,15 +359,16 @@ export default class Skeeball extends Component {
 		// loops
 		let cycle = 2;
 
-		const loop = new WHS.Loop((clock) => {
-			if (clock.getElapsedTime() > cycle) {
-				// shoot random ball
-				// shootBall(startPos, 100 + (Math.random() * 70), (Math.random() * 14) - 7);
-				cycle += 2.2;
-			}
-		});
 
-		loop.start(app);
+		// shoot random ball
+		// const loop = new WHS.Loop((clock) => {
+		// 	if (clock.getElapsedTime() > cycle) {
+		// 		shootBall(startPos, 100 + (Math.random() * 70), (Math.random() * 14) - 7);
+		// 		cycle += 2.2;
+		// 	}
+		// });
+
+		// loop.start(app);
 
 
 		// camera controls
@@ -310,24 +393,24 @@ export default class Skeeball extends Component {
 			}
 		}
 
-		const constantLoop = new WHS.Loop((clock) => {
+		// const constantLoop = new WHS.Loop((clock) => {
 
 
-			if (changeCam) {
-				changeCam = false;
+		// if (changeCam) {
+		// 	changeCam = false;
 
-				selectNewCamera(cameraSelected);
-			}
+		// 	selectNewCamera(cameraSelected);
+		// }
 
-			if (chaseCam) {
-				camera.position.x = ghostBall.position.x + 10;
-				camera.position.y = ghostBall.position.y + 10;
-				camera.position.z = ghostBall.position.z;
-			}
+		// if (chaseCam) {
+		// 	camera.position.x = ghostBall.position.x + 13;
+		// 	camera.position.y = ghostBall.position.y + 10;
+		// 	camera.position.z = ghostBall.position.z;
+		// }
 
-		});
+		// });
 
-		constantLoop.start(app);
+		// constantLoop.start(app);
 
 		// app start
 		app.start();

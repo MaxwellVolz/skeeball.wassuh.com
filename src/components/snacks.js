@@ -21,6 +21,7 @@ export default class ConsecutiveSnackbars extends React.Component {
     super(props)
 
     this.handleClick = this.handleClick.bind(this);
+    // this.messageFromAbove = this.messageFromAbove.bind(this);
   }
 
   state = {
@@ -105,7 +106,7 @@ export default class ConsecutiveSnackbars extends React.Component {
         <Snackbar
           key={key}
           anchorOrigin={{
-            vertical: 'bottom',
+            vertical: 'top',
             horizontal: 'left',
           }}
           open={this.state.open}

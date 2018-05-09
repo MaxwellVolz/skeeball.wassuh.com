@@ -4,7 +4,10 @@ body {
   font-family: sans-serif;
 }
 
-html,body,#root,.App,#whs{
+html,body,#root,.App{
   height: 100%;
+}
+#whs{
+  height: 90%;
 }
 

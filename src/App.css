@@ -9,8 +9,8 @@
 
 .App-header {
   background-color: #222;
-  height: 65px;
-  padding: 20px;
+  height: 45px;
+  padding: 10px;
   color: white;
 }
 
@@ -45,4 +45,21 @@ canvas {
 
 .listClass{
   width: auto
+}
+
+#PowerBar{
+  display:none;
+  top: 0px;
+  height: 64px;
+  position: absolute; 
+  width: 100vw;
+}
+
+#stepperContainer > div{
+  height:64px;
+  width:100%;
+  position:absolute;
+  left: 0;
+  top:0;
+  padding:0;
 }
