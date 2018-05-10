@@ -26,10 +26,10 @@ export function Lights(app) {
 
     // moodLight.addTo(app);
 
-    // new WHS.AmbientLight({
-    //     light: {
-    //         intensity: 0.3
-    //     }
-    // }).addTo(app);
+    new WHS.AmbientLight({
+        light: {
+            intensity: 0.2
+        }
+    }).addTo(app);
     return app;
 }

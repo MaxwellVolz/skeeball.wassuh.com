@@ -20,6 +20,7 @@ import Skeeball from '../../scenes/skeeball';
 import Snacks from '../../components/snacks';
 import Alerts from '../../components/alerts';
 import PowerBar from '../../components/powerBar';
+import AngleDots from '../../components/angleDots';
 import RightDrawer from '../../components/drawer';
 import StepperGuide from '../../components/stepperGuide';
 
@@ -35,8 +36,10 @@ export default class Header extends Component {
         this.snack = React.createRef();
         this.stepper = React.createRef();
         this.powerBar = React.createRef();
+        this.angleDots = React.createRef();
+        this.skeeball = React.createRef();
 
-        this.state ={showPower: false}
+        this.state = { showPower: false }
     }
 
     ballReport = (msg) => {
@@ -47,6 +50,16 @@ export default class Header extends Component {
 
     }
 
+    powerUpdate = (pow) => {
+        // console.log("pow: " + pow);
+        this.skeeball.powerMessage(pow);
+    }
+
+    angleUpdate = (ang) => {
+        // console.log("ang: " + ang);
+        this.skeeball.angleMessage(ang);
+    }
+
     stepComplete = (step) => {
         // console.log("One small step..." + step);
 
@@ -55,8 +68,8 @@ export default class Header extends Component {
             case 0:
 
                 break;
-            case 1: 
-            
+            case 1:
+
                 break;
             case 2:
                 this.powerBar.showPower();
@@ -64,11 +77,11 @@ export default class Header extends Component {
 
                 break;
 
-            case 3: 
+            case 3:
 
                 break;
             default:
-                console.log("default step?")
+                // console.log("default step?")
                 break;
         }
 
@@ -89,24 +102,30 @@ export default class Header extends Component {
                 <Snacks onRef={ref => (this.snack = ref)} />
                 <Alerts />
 
+                <div id="AngleDots">
+
+                    <AngleDots angleFromDots={this.angleUpdate} onRef={ref => (this.angleDots = ref)} />
+                </div>
+
 
 
                 <header className="App-header">
+
                     <RightDrawer />
 
-                    {/* <h1 className="App-title"></h1> */}
+                    <h1 className="App-title">Skeeball 3D</h1>
 
                 </header>
                 <div id="PowerBar">
 
-                <PowerBar onRef={ref => (this.powerBar = ref)}/>
+                    <PowerBar powerFromBar={this.powerUpdate} onRef={ref => (this.powerBar = ref)} />
                 </div>
-                    
-               
+
+
 
 
                 <div id="whs"></div>
-                <div id="bottomContainer" style={{width: '100vw'}}>
+                <div id="stepperContainer">
 
                     <StepperGuide onRef={ref => (this.stepper = ref)} />
                 </div>

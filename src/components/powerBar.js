@@ -18,13 +18,15 @@ export default class ProgressMobileStepper extends React.Component {
     constructor(props) {
         super(props)
 
+		// this.powerKeyPress = this.powerKeyPress.bind(this);
+		// this.showPower = this.showPower.bind(this);
 
     }
     state = {
         activeStep: 0,
     };
     tick = () => {
-        if (this.state.activeStep < 22 ) {
+        if (this.state.activeStep < 22) {
 
             this.setState({
                 activeStep: this.state.activeStep + 1
@@ -38,21 +40,29 @@ export default class ProgressMobileStepper extends React.Component {
     };
 
     componentDidMount() {
-        myInterval = setInterval(this.tick, 100);    
-        
+        myInterval = setInterval(this.tick, 100);
+        document.addEventListener("keydown", this.powerKeyPress, false);
+
         this.props.onRef(this)
     }
     componentWillUnmount() {
         clearInterval(myInterval);
+        document.removeEventListener("keydown", this.powerKeyPress, false);
+        
         this.props.onRef(undefined)
     }
-
-
     showPower = () => {
         this.setState({
             activeStep: 0
         });
     }
+    powerKeyPress = (event) => {
+
+        if(event.key === ' ') this.props.powerFromBar(this.state.activeStep);
+    
+    }
+
+
 
     handleNext = () => {
         this.setState({
@@ -75,7 +85,7 @@ export default class ProgressMobileStepper extends React.Component {
                 steps={20}
                 position="static"
                 activeStep={this.state.activeStep}
-                id="stepperContainer"
+                id="powerBarContainer"
                 style={{
                     // 'maxWidth': 400,
                     // 'flexGrow': 1,

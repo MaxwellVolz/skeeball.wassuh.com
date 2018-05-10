@@ -7,7 +7,7 @@ import Typography from 'material-ui/Typography';
 
 
 function getSteps() {
-    return ['Pickup Ball', 'Select launch position', 'Set Power'];
+    return ['Pick up a ball', 'Adjust position', 'Select angle', 'Select power'];
 }
 
 function getStepContent(step) {
@@ -41,14 +41,18 @@ export default class HorizontalLinearStepper extends React.Component {
     }
 
     actionFromAbove = step => {
-        console.log("and below");
         this.setState({
             activeStep: step,
         });
     }
 
     isStepOptional = step => {
-        // return step === 1;
+        return (step === 2 || step === 3);
+        return;
+    };
+
+    isStepPosition = step => {
+        return (step === 1);
         return;
     };
 
@@ -103,24 +107,23 @@ export default class HorizontalLinearStepper extends React.Component {
         const { activeStep } = this.state;
 
         return (
-            <div style={{
-                width: '100%',
-                position: 'absolute',
-                bottom: '6px'
-            }}>
-                <Stepper activeStep={activeStep}>
+            <div>
+                <Stepper activeStep={activeStep} orientation="vertical">
                     {steps.map((label, index) => {
                         const props = {};
                         const labelProps = {};
+                        if (this.isStepPosition(index)) {
+                            labelProps.optional = <Typography variant="caption">arrow keys</Typography>;
+                        }
                         if (this.isStepOptional(index)) {
-                            labelProps.optional = <Typography variant="caption">Optional</Typography>;
+                            labelProps.optional = <Typography variant="caption">spacebar</Typography>;
                         }
                         if (this.isStepSkipped(index)) {
                             props.completed = false;
                         }
                         return (
-                            <Step key={label} {...props}>
-                                <StepLabel {...labelProps}>{label}</StepLabel>
+                            <Step key={label} {...props} style={{color:'white'}}>
+                                <StepLabel {...labelProps} className="stepLabel">{label}</StepLabel>
                             </Step>
                         );
                     })}

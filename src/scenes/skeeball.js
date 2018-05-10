@@ -23,6 +23,15 @@ let changeCam = false,
 	chaseCam = false,
 	cameraSelected = 1;
 
+let selectedPower = 0,
+	fireShot = false,
+	readyToShoot = false;
+
+let selectedAngle = 0,
+	angleShot = false,
+	readyToAngle = false;
+
+
 export default class Skeeball extends Component {
 
 	constructor(props) {
@@ -43,16 +52,35 @@ export default class Skeeball extends Component {
 		this.PlaySkeeball();
 	}
 
+	powerMessage(pow) {
+
+		selectedPower = pow;
+		if (readyToShoot === true) fireShot = true;
+
+	}
+
+	angleMessage(ang) {
+
+		// console.log("but actually..." + ang);		
+
+
+		if (readyToAngle === true && angleShot === false) {
+			selectedAngle = (ang - 3) * -5;
+			
+			angleShot = true;
+		}
+
+	}
+
 	PlaySkeeball() {
 
 		// init app
 		const mouse = new WHS.VirtualMouseModule();
-		const startPos = new THREE.Vector3(105, 3, -5);
+		const startPos = new THREE.Vector3(102, -1, -5);
 
 		let currentStep = 0,
 			positionLocked = true;
 
-		let selectedPower = 0;
 
 		camera = new WHS.PerspectiveCamera({
 			fov: 100,
@@ -94,7 +122,12 @@ export default class Skeeball extends Component {
 
 		// create balls in slot
 		// ref them in order
-		// on click of area 
+		// on click of area
+
+		SkeeballModels.makeSlotBalls(app, mouse);
+
+
+
 
 		var checkTime = 0;
 
@@ -111,7 +144,7 @@ export default class Skeeball extends Component {
 				this.props.ballWasMade("Shot fired!");
 				let skeeballball = new WHS.Sphere({
 					geometry: {
-						radius: 1,
+						radius: 2,
 						widthSegments: 32,
 						heightSegments: 32
 					},
@@ -122,7 +155,7 @@ export default class Skeeball extends Component {
 							setLinearVelocity: {
 								x: shotPower,
 								y: shotPower / 10,
-								z: shotAngle
+								z: 0
 							}
 						}),
 					],
@@ -141,7 +174,7 @@ export default class Skeeball extends Component {
 				setTimeout(function () {
 					skeeballball.use('physics').setLinearVelocity({
 						x: -shotPower,
-						y: shotPower / 20,
+						y: 1,
 						z: shotAngle
 					});
 				}, 50);
@@ -164,15 +197,16 @@ export default class Skeeball extends Component {
 		// collision listeners for holes 
 
 		const ghostBall = SkeeballModels.GhostBall(startPos);
+
 		// ghostBall.addTo(app);
 
-		mouse.track(ghostBall);
+		// mouse.track(ghostBall);
 
-		ghostBall.on('click', () => {
+		// ghostBall.on('click', () => {
 
-			shootBall(ghostBall.position, 120 + (Math.random() * 70), (Math.random() * 8) - 4);
+		// 	shootBall(ghostBall.position, 120 + (Math.random() * 70), (Math.random() * 8) - 4);
 
-		});
+		// });
 
 		var checkTime2 = 0;
 
@@ -182,7 +216,7 @@ export default class Skeeball extends Component {
 
 			if ((currentTime.getTime() - checkTime2) > 200) {
 
-				if (currentStep > 2) {
+				if (currentStep > 3) {
 					currentStep = 0;
 				}
 
@@ -195,41 +229,36 @@ export default class Skeeball extends Component {
 						break;
 					case 1:
 						positionLocked = true;
+						document.getElementById('AngleDots').style.display = 'block';
 
-					
+
 						// show power bar
-						document.getElementById('PowerBar').style.display = 'block';
 
-
-						
 						this.props.actionCompleted(2);
 						break;
 					case 2:
 						// show angle bar
-						let domEl = document.getElementById('PowerBar');
-						// console.log(window.getComputedStyle(domEl,null));
-
-						selectedPower = domEl.children["0"].children["0"].attributes[2].value;
-
-						// console.log()
-
-						// console.log( document.getElementById('PowerBar').dataset.aria-valuenow)
-
 
 						
-						document.getElementById('PowerBar').style.display = 'none';
+						document.getElementById('AngleDots').style.display = 'none';
 
-						removeGhostBall();
-						console.log("Shot power is: 180 + " + selectedPower / 15)
-						shootBall(ghostBall.position, 165 + (selectedPower / 15) , (Math.random() * 3) - 1.5);
+						readyToAngle = true;
+						document.getElementById('PowerBar').style.display = 'block';
+						
 						
 
-						this.props.actionCompleted(0);
+						this.props.actionCompleted(3);
 						break;
 					case 3:
-						
+
+						let domEl = document.getElementById('PowerBar');
+						document.getElementById('PowerBar').style.display = 'none';
+
+						readyToShoot = true;
+
+
 						this.props.actionCompleted(0);
-					
+
 						// shoot
 						break;
 					case 4:
@@ -242,7 +271,7 @@ export default class Skeeball extends Component {
 				}
 
 				++currentStep;
-				
+
 				checkTime2 = currentTime.getTime();
 			}
 		}
@@ -305,6 +334,7 @@ export default class Skeeball extends Component {
 				case ' ':
 					// shootBall(ghostBall.position, 180, (Math.random() * 3) - 1.5);
 					advanceStep();
+
 					// removeGhostBall();
 					break;
 				case '3':
@@ -317,25 +347,27 @@ export default class Skeeball extends Component {
 				case 'ArrowUp':
 				case 'w':
 				case 'W':
-					if (ghostBall.position.y < 8 && !positionLocked) ghostBall.position.y += .5;
+					if (ghostBall.position.y < 3 && !positionLocked) ghostBall.position.y += .5;
+
 					break;
 
 				case 'ArrowDown':
 				case 's':
 				case 'S':
-					if (ghostBall.position.y > 0 && !positionLocked) ghostBall.position.y -= .5;
+					if (ghostBall.position.y > -6 && !positionLocked) ghostBall.position.y -= .5;
+
 					break;
 
 				case 'ArrowLeft':
 				case 'a':
 				case 'A':
-					if (ghostBall.position.z < 6.5 && !positionLocked) ghostBall.position.z += .5;
+					if (ghostBall.position.z < 12 && !positionLocked) ghostBall.position.z += .5;
 					break;
 
 				case 'ArrowRight':
 				case 'd':
 				case 'D':
-					if (ghostBall.position.z > -8 && !positionLocked) ghostBall.position.z -= .5;
+					if (ghostBall.position.z > -13 && !positionLocked) ghostBall.position.z -= .5;
 					break;
 
 				case 'Control':
@@ -357,6 +389,20 @@ export default class Skeeball extends Component {
 
 		// lights
 		SkeeballLights.Lights(app);
+
+		// deletion planes
+		const deletionPlan = SkeeballModels.DeletionPlane(app);
+
+		deletionPlan.addTo(app);
+
+		deletionPlan.on('collision', (otherObject, v, r, contactNormal) => {
+
+			// console.log(otherObject);
+			if (contactNormal.y < 0.5) {
+				app.remove(otherObject);
+			}
+
+		});
 
 		// loops
 		let cycle = 2;
@@ -395,24 +441,56 @@ export default class Skeeball extends Component {
 			}
 		}
 
-		// const constantLoop = new WHS.Loop((clock) => {
+		const constantLoop = new WHS.Loop((clock) => {
+
+			if (angleShot === true) {
+
+				angleShot = false;
+				readyToAngle = false;
+
+				// console.log("selectedAngle: " + selectedAngle);
+				// console.log("actualAngle: " + selectedAngle);
+
+				
+
+				// removeGhostBall();
+				// shootBall(ghostBall.position, 90 + (selectedAngle * 4), 0);
+
+			}
+
+			if (fireShot === true) {
+				fireShot = false;
+				readyToShoot = false;
+
+				console.log("selectedPower: " + selectedPower);
+				// console.log("actualPower: " + (90 + (selectedPower * 4)));
+				console.log("selectedAngle: " + selectedAngle);
+				
+
+				removeGhostBall();
+				shootBall(ghostBall.position, 90 + (selectedPower * 4), selectedAngle);
+
+			}
+
+			
+				
 
 
-		// if (changeCam) {
-		// 	changeCam = false;
+			// if (changeCam) {
+			// 	changeCam = false;
 
-		// 	selectNewCamera(cameraSelected);
-		// }
+			// 	selectNewCamera(cameraSelected);
+			// }
 
-		// if (chaseCam) {
-		// 	camera.position.x = ghostBall.position.x + 13;
-		// 	camera.position.y = ghostBall.position.y + 10;
-		// 	camera.position.z = ghostBall.position.z;
-		// }
+			// if (chaseCam) {
+			// 	camera.position.x = ghostBall.position.x + 13;
+			// 	camera.position.y = ghostBall.position.y + 10;
+			// 	camera.position.z = ghostBall.position.z;
+			// }
 
-		// });
+		});
 
-		// constantLoop.start(app);
+		constantLoop.start(app);
 
 		// app start
 		app.start();
