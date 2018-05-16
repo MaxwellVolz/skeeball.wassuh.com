@@ -19,7 +19,8 @@ import Skeeball from '../../scenes/skeeball';
 
 import Snacks from '../../components/snacks';
 import Alerts from '../../components/alerts';
-import PowerBar from '../../components/powerBar';
+// import PowerBar from '../../components/powerBar';
+import PowerDots from '../../components/powerDots';
 import AngleDots from '../../components/angleDots';
 import RightDrawer from '../../components/drawer';
 import StepperGuide from '../../components/stepperGuide';
@@ -35,7 +36,7 @@ export default class Header extends Component {
         super(props);
         this.snack = React.createRef();
         this.stepper = React.createRef();
-        this.powerBar = React.createRef();
+        this.powerDots = React.createRef();
         this.angleDots = React.createRef();
         this.skeeball = React.createRef();
 
@@ -56,7 +57,7 @@ export default class Header extends Component {
     }
 
     angleUpdate = (ang) => {
-        // console.log("ang: " + ang);
+
         this.skeeball.angleMessage(ang);
     }
 
@@ -72,7 +73,7 @@ export default class Header extends Component {
 
                 break;
             case 2:
-                this.powerBar.showPower();
+                // this.powerBar.showPower();
                 // alert("showPower!");
 
                 break;
@@ -116,9 +117,9 @@ export default class Header extends Component {
                     <h1 className="App-title">Skeeball 3D</h1>
 
                 </header>
-                <div id="PowerBar">
+                <div id="PowerDots">
 
-                    <PowerBar powerFromBar={this.powerUpdate} onRef={ref => (this.powerBar = ref)} />
+                    <PowerDots powerFromDots={this.powerUpdate} onRef={ref => (this.powerBar = ref)} />
                 </div>
 
 

@@ -47,7 +47,7 @@ canvas {
   width: auto
 }
 
-#AngleDots{
+#AngleDots, #PowerDots{
   display:none;
   z-index: 5;
   bottom: 0;
@@ -56,16 +56,29 @@ canvas {
   width: 100vw;
 }
 
-#AngleDots > div{
+#AngleDots > div {
+  background-color:#80DEEA;
   justify-content: center;
 }
 
-#AngleDots > div > div{
-  height:85px;
 
+#PowerDots > div {
+  background-color:#EF9A9A;
+  justify-content: center;
+  
+}
+
+#AngleDots > div > div, #PowerDots > div > div{
+  height:85px;
+  margin-top:30px;
 }
 
 #AngleDots > div > div > div{
+  height:32px;
+  width:32px;
+}
+
+#PowerDots > div > div > div{
   height:32px;
   width:32px;
 }
@@ -102,4 +115,12 @@ canvas {
 
 .stepLabel > span > span{
   color:white !important;
+}
+
+#stepperContainer > div > div > div:nth-child(5) > span > span > span{
+  color: #80DEEA !important;
+}
+
+#stepperContainer > div > div > div:nth-child(7) > span > span > span{
+  color: #EF9A9A !important;
 }

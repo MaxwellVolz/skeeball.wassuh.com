@@ -54,22 +54,19 @@ export default class Skeeball extends Component {
 
 	powerMessage(pow) {
 
-		selectedPower = pow;
-		if (readyToShoot === true) fireShot = true;
-
+		if (readyToShoot === true && fireShot === false) {
+			selectedPower = pow;
+			
+			fireShot = true;
+		}
 	}
 
 	angleMessage(ang) {
-
-		// console.log("but actually..." + ang);		
-
-
 		if (readyToAngle === true && angleShot === false) {
 			selectedAngle = (ang - 3) * -5;
 			
 			angleShot = true;
 		}
-
 	}
 
 	PlaySkeeball() {
@@ -196,6 +193,8 @@ export default class Skeeball extends Component {
 
 		// collision listeners for holes 
 
+
+
 		const ghostBall = SkeeballModels.GhostBall(startPos);
 
 		// ghostBall.addTo(app);
@@ -243,7 +242,7 @@ export default class Skeeball extends Component {
 						document.getElementById('AngleDots').style.display = 'none';
 
 						readyToAngle = true;
-						document.getElementById('PowerBar').style.display = 'block';
+						document.getElementById('PowerDots').style.display = 'block';
 						
 						
 
@@ -251,8 +250,8 @@ export default class Skeeball extends Component {
 						break;
 					case 3:
 
-						let domEl = document.getElementById('PowerBar');
-						document.getElementById('PowerBar').style.display = 'none';
+						// let domEl = document.getElementById('PowerBar');
+						document.getElementById('PowerDots').style.display = 'none';
 
 						readyToShoot = true;
 

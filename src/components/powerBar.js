@@ -27,12 +27,19 @@ export default class ProgressMobileStepper extends React.Component {
     };
     tick = () => {
         if (this.state.activeStep < 22) {
+                        
+            
+            // document.getElementById('PowerBar').children[0].children[0].children[0].style.backgroundColor = 'green';
+            this.state.barColor = 'blue';
 
             this.setState({
                 activeStep: this.state.activeStep + 1
             });
         }
         else {
+            // document.getElementById('PowerBar').children[0].children[0].children[0].style.backgroundColor = 'red';
+            this.state.barColor = 'red';
+
             this.setState({
                 activeStep: -7
             });
@@ -58,7 +65,7 @@ export default class ProgressMobileStepper extends React.Component {
     }
     powerKeyPress = (event) => {
 
-        if(event.key === ' ') this.props.powerFromBar(this.state.activeStep);
+        // if(event.key === ' ') this.props.powerFromBar(this.state.activeStep);
     
     }
 
@@ -80,11 +87,13 @@ export default class ProgressMobileStepper extends React.Component {
         const { classes, theme } = this.props;
 
         return (
+            
             <MobileStepper
                 variant="progress"
                 steps={20}
                 position="static"
                 activeStep={this.state.activeStep}
+                className={this.state.barColor === 'blue' ? 'blueBar' : 'redBar'}
                 id="powerBarContainer"
                 style={{
                     // 'maxWidth': 400,
