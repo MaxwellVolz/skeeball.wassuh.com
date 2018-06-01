@@ -36,6 +36,7 @@ export default class DotsMobileStepper extends React.Component {
     
     }
 
+    
     tick = () => {
         if (this.state.activeStep < 6) {
 

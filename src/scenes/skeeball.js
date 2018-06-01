@@ -55,7 +55,9 @@ export default class Skeeball extends Component {
 	powerMessage(pow) {
 
 		if (readyToShoot === true && fireShot === false) {
-			selectedPower = pow;
+			selectedPower = pow*4;
+			console.log("power dots power: " + pow);
+			
 			
 			fireShot = true;
 		}
